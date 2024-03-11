@@ -1,57 +1,17 @@
-from random import random, randint
-from math import cos, sin, radians, sqrt, atan2, degrees
+from random import random
+from math import cos, sin, radians, sqrt
 from typing import List
+from PVector import PVector
 import pygame
 
-class PVector:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def add(self, vector):
-        self.x += vector.x
-        self.y += vector.y
-
-    def sub(self, vector):
-        self.x -= vector.x
-        self.y -= vector.y
-
-    def mult(self, n):
-        self.x *= n
-        self.y *= n
-
-    def div(self, n):
-        self.x /= n
-        self.y /= n
-
-    def mag(self):
-        return sqrt(self.x ** 2 + self.y ** 2)
-
-    def normalize(self):
-        m = self.mag()
-        if m != 0:
-            self.div(m)
-
-    def heading(self):
-        angle = atan2(self.y, self.x)
-        return angle
-
-    def limit(self, max_val):
-        magnitude = self.mag()
-        if magnitude > max_val:
-            self.x = (self.x / magnitude) * max_val
-            self.y = (self.y / magnitude) * max_val
-
-
 class Boid:
-    def __init__(self, x, y):
+    def __init__(self, x, y, speed, maxforce):
         self.position = PVector(x, y)
-        angle = random() * 2 * 3.14159
-        self.velocity = PVector(cos(angle), sin(angle))
+        self.velocity = PVector(cos(random() * 2 * 3.14), sin(random() * 2 * 3.14))
         self.acceleration = PVector(0, 0)
         self.r = 2.0
-        self.maxspeed = 2
-        self.maxforce = 0.03
+        self.maxspeed = speed
+        self.maxforce = maxforce
 
     def applyForce(self, force):
         self.acceleration.add(force)
@@ -84,7 +44,7 @@ class Boid:
 
     def render(self, canvas):
         theta = self.velocity.heading() + radians(90)
-        fill_color = (200, 100, 0)  # Adjust color as needed
+        fill_color = (0, 0, 0)  # Adjust color as needed
         triangle_points = [(0, -self.r * 2), (-self.r, self.r * 2), (self.r, self.r * 2)]
         
         rotated_triangle_points = []
