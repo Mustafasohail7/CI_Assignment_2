@@ -26,9 +26,9 @@ class Slider:
         if pygame.mouse.get_pressed()[0] and pygame.Rect(self.rectx, self.recty, 15, 20).collidepoint(pygame.mouse.get_pos()):
             self.rectx = pygame.mouse.get_pos()[0]
         self.rectx = max(min(self.rectx, self.x + 120), self.x)
-        pygame.draw.rect(screen, (255, 255, 255), (self.rectx, self.recty, 15, 20))
+        pygame.draw.rect(screen, (0, 0, 0), (self.rectx, self.recty, 15, 20))
         font = pygame.font.SysFont(None, 12)
         val_text = font.render(str(int(self.val)), True, (0, 0, 0))
-        label_text = font.render(self.label, True, (255, 255, 255))
+        label_text = font.render(self.label, True, (0, 0, 0))
         screen.blit(val_text, (self.rectx + 8, self.recty + 8))
         screen.blit(label_text, (self.x + 60, self.y + 20))

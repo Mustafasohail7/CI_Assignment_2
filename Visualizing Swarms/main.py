@@ -41,16 +41,17 @@ def draw():
         boid.borders(SIMULATION_AREA_WIDTH, SCREEN_HEIGHT) 
         boid.render(screen)
 
-    # Draw control area
-    control_area = screen.subsurface((SIMULATION_AREA_WIDTH, 0, CONTROL_AREA_WIDTH, SCREEN_HEIGHT))
-    control_area.fill((200, 200, 200))  # Fill control area with a background color
+    # Draw control area background
+    control_area_bg = pygame.Surface((CONTROL_AREA_WIDTH, SCREEN_HEIGHT))
+    control_area_bg.fill((128, 128, 128))  # Fill with gray color
+    screen.blit(control_area_bg, (SIMULATION_AREA_WIDTH, 0))
 
-    gui.draw(control_area)  # Draw GUI elements in the control area
+    # Draw GUI elements in the control area
+    gui.draw(screen)
 
     # Update the display
     pygame.display.flip()
     clock.tick(60)
-
 
 def main():
     global gui  

@@ -1,6 +1,5 @@
 from button import Button
 from slider import Slider
-from boid import Boid
 
 class GUI:
     def __init__(self, screen_width, screen_height):
@@ -14,10 +13,10 @@ class GUI:
         gui_height = self.screen_height
 
         # Define the position and dimensions for the buttons and sliders
-        button_width = gui_width // 2
-        button_height = gui_height // 10
-        slider_width = gui_width // 2
-        slider_height = gui_height // 15
+        button_width = 20
+        button_height = 15
+        slider_width = 20
+        slider_height = 10
 
         # Position the buttons and sliders relative to the GUI area
         button_x = (self.screen_width - gui_width) + (gui_width - button_width) // 2
@@ -25,17 +24,18 @@ class GUI:
 
         button_y = gui_height // 10
         button_spacing = button_height * 1.5
-        slider_y = gui_height // 3
+        slider_y = gui_height // 5
 
         # Create buttons
-        self.buttons.append(Button('Add Bird', (button_x, button_y, button_width, button_height)))
+        self.buttons.append(Button('Add Bird', (button_x, button_y + button_spacing, button_width, button_height)))
         self.buttons.append(Button('Remove Bird', (button_x, button_y + button_spacing, button_width, button_height)))
-        self.buttons.append(Button('Restart Simulation', (button_x, button_y + 2 * button_spacing, button_width, button_height)))
+        self.buttons.append(Button('Start Simulation', (button_x, button_y + button_spacing, button_width, button_height)))
+        self.buttons.append(Button('Restart Simulation', (button_x, button_y + button_spacing, button_width, button_height)))
 
         # Create sliders
-        self.sliders.append(Slider('Number of Birds', 1, 150, 1, (slider_x, slider_y, slider_width, slider_height)))
-        self.sliders.append(Slider('Speed', 1, 5, 1, (slider_x, slider_y + slider_height * 2, slider_width, slider_height)))
-        self.sliders.append(Slider('Max Force', 0.01, 0.5, 0.01, (slider_x, slider_y + slider_height * 4, slider_width, slider_height)))
+        self.sliders.append(Slider('Number of Birds', 1, 500, 1, (slider_x, slider_y + slider_height, slider_width, slider_height)))
+        self.sliders.append(Slider('Speed', 1, 10, 1, (slider_x, slider_y + slider_height, slider_width, slider_height)))
+        self.sliders.append(Slider('Max Force', 0.01, 0.5, 0.01, (slider_x, slider_y + slider_height, slider_width, slider_height)))
 
     def draw(self, screen):  
         for button in self.buttons:
