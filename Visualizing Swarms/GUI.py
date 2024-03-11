@@ -1,10 +1,12 @@
 from button import Button
 from slider import Slider
+from textbox import TextBox
 
 class GUI:
     def __init__(self, screen_width, screen_height):
         self.buttons = []
         self.sliders = []
+        self.text_boxes = []
         self.screen_width = screen_width
         self.screen_height = screen_height
 
@@ -18,7 +20,7 @@ class GUI:
         slider_width = 20
         slider_height = 10
 
-        # Position the buttons and sliders relative to the GUI area
+        # Position the buttons, sliders, and text boxes relative to the GUI area
         button_x = (self.screen_width - gui_width) + (gui_width - button_width) // 2
         slider_x = (self.screen_width - gui_width) + (gui_width - slider_width) // 2
 
@@ -30,10 +32,13 @@ class GUI:
         self.buttons.append(Button('Add Bird', (button_x, button_y + button_spacing, button_width, button_height)))
         self.buttons.append(Button('Remove Bird', (button_x, button_y + button_spacing, button_width, button_height)))
         self.buttons.append(Button('Start Simulation', (button_x, button_y + button_spacing, button_width, button_height)))
-        self.buttons.append(Button('Restart Simulation', (button_x, button_y + button_spacing, button_width, button_height)))
+        self.buttons.append(Button('Stop Simulation', (button_x, button_y + button_spacing, button_width, button_height)))
+
+        # Create text box for Number of Birds
+        self.text_box = TextBox('Number of Birds', (slider_x, slider_y + slider_height + 20, slider_width, slider_height))
+        self.text_boxes.append(self.text_box)  # Add the text box to the list
 
         # Create sliders
-        self.sliders.append(Slider('Number of Birds', 1, 500, 1, (slider_x, slider_y + slider_height, slider_width, slider_height)))
         self.sliders.append(Slider('Speed', 1, 10, 1, (slider_x, slider_y + slider_height, slider_width, slider_height)))
         self.sliders.append(Slider('Max Force', 0.01, 0.5, 0.01, (slider_x, slider_y + slider_height, slider_width, slider_height)))
 
@@ -42,26 +47,30 @@ class GUI:
             button.draw(screen)
         for slider in self.sliders:
             slider.draw(screen)
+        for text_box in self.text_boxes:
+            text_box.draw(screen)
 
-    def mouseHover(self):
+    def handle_event(self, event):
         for button in self.buttons:
-            if button.mouseHover():
-                return button.label
-        return None
+            button.handle_event(event)
+        for slider in self.sliders:
+            slider.handle_event(event)
+        self.text_box.handle_event(event)
 
     def mousepressed(self):
         for button in self.buttons:
             if button.mousepressed():
                 return button.label
         return None
-
+    
     def getSliderValues(self):
         values = {}
         for slider in self.sliders:
             values[slider.label] = slider.val
         return values
 
-    def toggleButton(self, label):
-        for button in self.buttons:
-            if button.label == label:
-                button.pressed = not button.pressed
+    def getTextBoxValues(self):
+        values = {}
+        for text_box in self.text_boxes:
+            values[text_box.label] = int(text_box.value)
+        return values
