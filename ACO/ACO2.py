@@ -23,7 +23,7 @@ class Ant:
     # reset everything for a new solution
     # start: starting node in g (random by default)
     # return: Ant
-    def initialize(self, g, colors, start=None):
+    def initialize(self, g_nodes_int, colors, start=None):
         self.colors_available = sorted(colors.copy())
         # init assigned colors with None
         keys = [n for n in g_nodes_int]
@@ -151,18 +151,12 @@ def init_colors(g):
 
 
 # calculate the adjacency matrix of the graph    
-def adjacency_matrix(g):
+def adjacency_matrix(g_nodes_int):
     adj_matrix = np.zeros((number_nodes, number_nodes), int)
     for node in g_nodes_int:
         for adj_node in g.neighbors(node):
             adj_matrix[node, adj_node] = 1
     return adj_matrix
-
-# create new colony
-def create_colony():
-    ants = []
-    ants.extend([Ant().initialize(g, colors) for i in range(number_ants)])
-    return ants
 
 # apply decay rate to the phero_matrix
 def apply_decay():
@@ -195,19 +189,17 @@ class ACO:
         iterations_needed = 0
           
         number_nodes = nx.number_of_nodes(self.graph)
-        g_nodes_int = []
+        self.g_nodes_int = []
         for node in self.graph:
-            g_nodes_int.append(node)
-        g_nodes_int = list(map(int, sorted(g_nodes_int)))
-        adj_matrix = adjacency_matrix(self.graph)
-        colors = init_colors(self.graph)
+            self.g_nodes_int.append(node)
+        self.g_nodes_int = list(map(int, sorted(self.g_nodes_int)))
+        adj_matrix = adjacency_matrix(self.g_nodes_int)
+        self.colors = init_colors(self.graph)
         self.phero_matrix = self.init_pheromones()
 
         # ACO_GCP daemon
         for i in range(self.iterations):
-            # create colony
-            ants = []
-            ants = create_colony()
+            self.ants = self.create_colony()
             # let colony find solutions
             for ant in ants:
                 ant.colorize()
@@ -247,12 +239,16 @@ class ACO:
         elite_phero_matrix = elite_ant.pheromone_trail()
         self.phero_matrix = self.phero_matrix + elite_phero_matrix
         return elite_ant.distance, elite_ant.colors_assigned
+    
+    def create_colony(self):
+        ants = []
+        ants.extend([Ant().initialize(self.g_nodes_int, self.colors) for i in range(self.num_ants)])
+        return ants
             
 
 # global vars
 g = None # graph to be colored
 number_nodes = 0
-g_nodes_int = []
 number_ants = 0
 alpha = 0
 beta = 0
@@ -262,7 +258,6 @@ phero_matrix = np.ones((number_nodes, number_nodes), float)
 colors = []
 ants = []
 
-graph = create_graph('input.txt')
 ant = ACO('queen11_11.col')
 a,b,c = ant.solve()
 print(a,b,c)
