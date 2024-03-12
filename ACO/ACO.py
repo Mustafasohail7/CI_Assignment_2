@@ -1,4 +1,4 @@
-from ReadFile import ReadFile
+from ACO.ReadFile import ReadFile
 
 class Ant:
     def __init__(self,routes,distance) -> None:
