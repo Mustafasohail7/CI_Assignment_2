@@ -79,8 +79,6 @@ def main():
                     stopSimulation()
                 elif button_label == 'Start Simulation':
                     startSimulation()
-                elif textbox_value := gui.getTextBoxValues().get('Number of Birds'):
-                    setnumbirds(textbox_value)
 
         draw()
 
