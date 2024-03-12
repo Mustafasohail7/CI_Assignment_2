@@ -18,16 +18,19 @@ flock = []
 background_image = pygame.image.load('Visualizing Swarms/images/skyBG2.jpg')
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-def restartSimulation():
-    flock.clear()  # Clear existing birds
-    num_birds = int(gui.getSliderValues()['Number of Birds'])
-    speed = gui.getSliderValues()['Speed']
-    maxforce = gui.getSliderValues()['Max Force']
-    for _ in range(num_birds):
-        flock.append(Boid(SIMULATION_AREA_WIDTH / 2, SCREEN_HEIGHT / 2, speed, maxforce))
-
 def setup():
     for i in range(150): # slider parameter
+        flock.append(Boid(SIMULATION_AREA_WIDTH, SCREEN_HEIGHT, 3, 0.03))  # Default values (position x, position y, speed, maxforce)
+
+def startSimulation():
+    setup()
+
+def stopSimulation():
+    flock.clear()  # Clear existing birds
+
+def setnumbirds(num):
+    flock.clear()
+    for i in range(num):
         flock.append(Boid(SIMULATION_AREA_WIDTH / 2, SCREEN_HEIGHT / 2, 2, 0.03))  # Default values
 
 def draw():
@@ -72,8 +75,12 @@ def main():
                     # Remove the last bird
                     if flock:
                         flock.pop()
-                elif button_label == 'Restart Simulation':
-                    restartSimulation()
+                elif button_label == 'Stop Simulation':
+                    stopSimulation()
+                elif button_label == 'Start Simulation':
+                    startSimulation()
+                elif textbox_value := gui.getTextBoxValues().get('Number of Birds'):
+                    setnumbirds(textbox_value)
 
         draw()
 

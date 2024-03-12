@@ -45,7 +45,7 @@ class Boid:
     def render(self, canvas):
         theta = self.velocity.heading() + radians(90)
         fill_color = (0, 0, 0)  # Adjust color as needed
-        triangle_points = [(0, -self.r * 2), (-self.r, self.r * 2), (self.r, self.r * 2)]
+        triangle_points = [(-self.r, self.r), (self.r, self.r), (0, -self.r * 2)]
         
         rotated_triangle_points = []
         for point in triangle_points:

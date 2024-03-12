@@ -35,3 +35,6 @@ class Button:
     def mouseHover(self):
         mouse_pos = pygame.mouse.get_pos()
         return self.x < mouse_pos[0] < self.x + self.w and self.y < mouse_pos[1] < self.y + self.h
+    
+    def setAction(self, action):
+        self.action = action
