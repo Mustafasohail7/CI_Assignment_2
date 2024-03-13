@@ -1,6 +1,5 @@
 from button import Button
 from slider import Slider
-from textbox import TextBox
 
 class GUI:
     def __init__(self, screen_width, screen_height):
@@ -34,10 +33,6 @@ class GUI:
         self.buttons.append(Button('Start Simulation', (button_x, button_y + button_spacing, button_width, button_height)))
         self.buttons.append(Button('Stop Simulation', (button_x, button_y + button_spacing, button_width, button_height)))
 
-        # Create text box for Number of Birds
-        self.text_box = TextBox('Number of Birds', (slider_x, slider_y + slider_height + 200, slider_width, slider_height))
-        self.text_boxes.append(self.text_box)  # Add the text box to the list
-
         # Create sliders
         self.sliders.append(Slider('Speed', 1, 10, 1, (slider_x, slider_y + slider_height + 25, slider_width, slider_height)))
         self.sliders.append(Slider('Max Force', 0.01, 0.5, 0.01, (slider_x, slider_y + slider_height + 25, slider_width, slider_height)))
@@ -55,7 +50,9 @@ class GUI:
             button.handle_event(event)
         for slider in self.sliders:
             slider.handle_event(event)
-        self.text_box.handle_event(event)
+        for text_box in self.text_boxes:
+            text_box.handle_event(event)  # Add this line to handle text box events
+
 
     def mousepressed(self):
         for button in self.buttons:
@@ -69,8 +66,3 @@ class GUI:
             values[slider.label] = slider.val
         return values
 
-    def getTextBoxValues(self):
-        values = {}
-        for text_box in self.text_boxes:
-            values[text_box.label] = int(text_box.value)
-        return values
