@@ -20,7 +20,7 @@ class Boid:
         coh = self.cohesion(boids)
         sep = (sep[0] * 1.5, sep[1] * 1.5)
         ali = (ali[0] * 1.0, ali[1] * 1.0)
-        coh = (coh[0] * 1.0, coh[1] * 1.0)
+        coh = (coh[0] * 2.0, coh[1] * 2.0)
         self.apply_force(sep)
         self.apply_force(ali)
         self.apply_force(coh)

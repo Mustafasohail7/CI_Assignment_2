@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 from boid import Boid
 from GUI import GUI
+from textbox import Textbox  # Import the Textbox class
 
 pygame.init()
 
@@ -20,18 +21,17 @@ background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREE
 
 def setup():
     for i in range(150): # slider parameter
-        flock.append(Boid(SIMULATION_AREA_WIDTH, SCREEN_HEIGHT, 3, 0.03))  # Default values (position x, position y, speed, maxforce)
+        flock.append(Boid(SIMULATION_AREA_WIDTH, SCREEN_HEIGHT, 3, 0.03))  # Default values
 
 def startSimulation():
-    setup()
+    num_Birds = gui.get_textbox_values()['Number of Birds']
+    for i in range(num_Birds): # slider parameter
+        speed = gui.get_slider_values()['Speed']
+        maxforce = gui.get_slider_values()['Max Force']
+        flock.append(Boid(SIMULATION_AREA_WIDTH, SCREEN_HEIGHT, speed, maxforce))  # Default values
 
 def stopSimulation():
     flock.clear()  # Clear existing birds
-
-def setnumbirds(num):
-    flock.clear()
-    for i in range(num):
-        flock.append(Boid(SIMULATION_AREA_WIDTH / 2, SCREEN_HEIGHT / 2, 2, 0.03))  # Default values
 
 def draw():
     # Draw the background image
@@ -59,6 +59,12 @@ def draw():
 def main():
     global gui  
     gui = GUI(SCREEN_WIDTH, SCREEN_HEIGHT)  
+
+    # Create and add a Textbox to the GUI
+    textbox_x = SCREEN_WIDTH - CONTROL_AREA_WIDTH + 50
+    textbox_y = SCREEN_HEIGHT // 3
+    # gui.textboxes.append(Textbox("Number of Birds", 150, (textbox_x, textbox_y, 140, 32)))
+
     setup()
     while True:
         for event in pygame.event.get():
@@ -69,19 +75,20 @@ def main():
             if event.type == MOUSEBUTTONDOWN:
                 button_label = gui.mousepressed()
                 if button_label == 'Add Bird':
-                    x, y = pygame.mouse.get_pos()
-                    flock.append(Boid(x, y, gui.getSliderValues()['Speed'], gui.getSliderValues()['Max Force']))
+                    x, y = SIMULATION_AREA_WIDTH // 2, SCREEN_HEIGHT // 2
+                    flock.append(Boid(x, y, gui.get_slider_values()['Speed'], gui.get_slider_values()['Max Force']))
                 elif button_label == 'Remove Bird':
-                    # Remove the last bird
                     if flock:
                         flock.pop()
                 elif button_label == 'Stop Simulation':
                     stopSimulation()
                 elif button_label == 'Start Simulation':
-                    startSimulation()
+                    setup()
+
+            # Pass events to the GUI
+            gui.handle_event(event)
 
         draw()
-
 
 if __name__ == "__main__":
     main()

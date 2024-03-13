@@ -38,3 +38,8 @@ class Button:
     
     def setAction(self, action):
         self.action = action
+
+    def handle_event(self, event):
+        if event.type == MOUSEBUTTONDOWN:
+            if self.mousepressed():
+                print(f"Button '{self.label}' clicked!")
