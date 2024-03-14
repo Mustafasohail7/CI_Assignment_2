@@ -36,6 +36,9 @@ individualraindrops = RainDrops()
 individualclouds = Clouds()
 raindrops_intervals = []
 
+def change_background():
+    screen.fill((255, 0, 0))
+
 def reset_sim():
     # print(individualraindrops.raindrops)
     global raindrops_intervals
@@ -46,6 +49,8 @@ def reset_sim():
 # Create the button
 button = Button(screen,20,50,50,50,text="Reset Simulation",inactiveColour=(200, 50, 0),hoverColour=(150, 0, 0),pressedColour=(0, 200, 20),
                 onClick=lambda: reset_sim())
+background_btn = Button(screen, 20, 100, 50, 50, text="Background", inactiveColour=(200, 50, 0), hoverColour=(150, 0, 0),
+                pressedColour=(0, 200, 20), onClick=lambda: change_background())
 button_pressed = False
 
 speed_output = TextBox(screen, 35, 95, 0, 5, fontSize=15)
