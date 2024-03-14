@@ -69,7 +69,7 @@ def main():
         # Draw simulation area
         screen.fill((150, 150, 255))
         # screen.fill((200,200,200))
-        image_path = 'images/snowytree.png'
+        image_path = '../images/snowytree.png'
         image = pygame.image.load(image_path)
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (0, SCREEN_HEIGHT - scaled_image.get_height()))

@@ -65,7 +65,7 @@ class RainDrops:
             # pos_x = random.randint(int(intervals[0][0]),int(intervals[0][1]))  # Convert SCREEN_WIDTH to an integer 
             # pos_y = random.randint(height[index],self.screen_height)  # Randomize the y position of the raindrop
             pos_y = height[index]+10
-            radius = 7.5
+            radius = 3
             direction_x = random.randint(1, 5)
             direction_y = 0  # Ensure raindrops move downwards
             particle_circle = [[pos_x, pos_y], radius, [direction_x, direction_y]]
