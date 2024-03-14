@@ -36,6 +36,9 @@ individualraindrops = RainDrops()
 individualclouds = Clouds()
 raindrops_intervals = []
 
+def change_background():
+    screen.fill((255, 0, 0))
+
 def reset_sim():
     # print(individualraindrops.raindrops)
     global raindrops_intervals
