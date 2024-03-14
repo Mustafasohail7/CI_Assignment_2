@@ -35,9 +35,15 @@ pygame.time.set_timer(PARTICLE_EVENT, 300)  # After how many milliseconds will e
 individualraindrops = RainDrops()
 individualclouds = Clouds()
 raindrops_intervals = []
-
+background = 0
+backgrounds = [(150, 150, 255), (200,200,200), (50,50,50)]
 def change_background():
-    screen.fill((255, 0, 0))
+    global background
+    if background != len(backgrounds)-1:
+        background += 1
+    else:
+        background = 0
+    
 
 def reset_sim():
     # print(individualraindrops.raindrops)
@@ -48,6 +54,7 @@ def reset_sim():
 
 # Create the button
 button = Button(screen, 40, 50, 100, 20, text="Reset Simulation", inactiveColour=(200, 50, 0), hoverColour=(150, 0, 0), pressedColour=(0, 200, 20), fontSize=12, onClick=lambda: reset_sim())
+button2 = Button(screen, 40, 100, 100, 20, text="Change Background", inactiveColour=(200, 50, 0), hoverColour=(150, 0, 0), pressedColour=(0, 200, 20), fontSize=12, onClick=lambda: change_background())
 button_pressed = False
 
 speed_output = TextBox(screen, 35, 145, 0, 5, fontSize=15)
@@ -66,6 +73,7 @@ dampen_output.disable()
 def main():
 
     global raindrops_intervals
+    global background
 
     speed = 5
     mean_raindrops = speed * 1.2
@@ -99,9 +107,9 @@ def main():
                 button_pressed = True  # Set the button_pressed variable to True when the button is pressed
 
         # Draw simulation area
-        screen.fill((150, 150, 255))
+        screen.fill(backgrounds[background])
         # screen.fill((200,200,200))
-        image_path = './images/snowytree.png'
+        image_path = '../images/snowytree.png'
         image = pygame.image.load(image_path)
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (0, SCREEN_HEIGHT - scaled_image.get_height()))
