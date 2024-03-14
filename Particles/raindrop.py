@@ -6,36 +6,33 @@ class RainDrops:
         self.raindrops = []
         self.snow_stack = dict()
 
-    def emit(self, screen):
+    def emit(self, screen,speed):
         if self.raindrops:
             self.delete()
             for i in range(len(self.raindrops)):
                 particle = self.raindrops[i]
                 if particle[0][1] >= screen.get_height() - particle[1]:
                         particle[0][1] = screen.get_height() - (particle[1])  # Set the y position to the bottom of the screen
-
+                        particle[1] = 0
                 else:
-                    particle[0][0] += particle[2][1]  # Move the particle in the y direction
-                    particle[0][1] += particle[2][0]  # Move the particle in the x direction
+                    particle[0][0] += particle[2][1] # Move the particle in the y direction
+                    particle[0][1] += particle[2][0] + speed # Move the particle in the x direction
                     particle[0][0] += 0.5
                 # particle[2][1] += 0.05  # Acceleration factor to the particle, this will be used to simulate the wind pressure
                 particle[1] -= 0.02 # Dampen the particle size, that is how fast the particle will shrink/die off
 
                              
                 # Check for collision with other particles
-                # for j in range(i+1, len(self.raindrops)):
-                #     other_particle = self.raindrops[j]
-                #     distance = ((particle[0][0] - other_particle[0][0])**2 + (particle[0][1] - other_particle[0][1])**2)**0.5
-                #     if distance < particle[1] + other_particle[1]:
-                #         # Handle collision by swapping velocities
-                #         particle[2][0], other_particle[2][0] = other_particle[2][0], particle[2][0]
-                #         particle[2][1], other_particle[2][1] = other_particle[2][1], particle[2][1]
+                for j in range(i+1, len(self.raindrops)):
+                    other_particle = self.raindrops[j]
+                    distance = ((particle[0][0] - other_particle[0][0])**2 + (particle[0][1] - other_particle[0][1])**2)**0.5
+                    if distance < particle[1] + other_particle[1]:
+                        # Handle collision by swapping velocities
+                        particle[2][0], other_particle[2][0] = other_particle[2][0], particle[2][0]
+                        particle[2][1], other_particle[2][1] = other_particle[2][1], particle[2][1]
                         
-                #         # Check if other_particle is stuck at the bottom of the screen
-                #         if other_particle[0][1] >= screen.get_height() - other_particle[1]:
-                #             # Stack particle on top of other_particle
-                #             particle[0][1] = other_particle[0][1] - particle[1]
-                #             self.fixed.add(i)
+
+
                 
                 pygame.draw.circle(screen, (200, 230, 255), particle[0], int(particle[1]))
 

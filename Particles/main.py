@@ -36,20 +36,22 @@ snowbed = []
 individualraindrops = RainDrops()
 individualclouds = Clouds()
 
-mean_raindrops = 10
-var_raindrops = 5
-
 
 # Create the button
 button = Button("Stop Simulation", (30, 10, 130, 32))
 button_pressed = False
 
 # speed_slider = Slider("Change Speed", 0, 10, 1, (100,100,0))
-speed = 1
 
-slider = Slider(screen, 40, 150, 100, 10, min=0, max=10, step=1)
+
+slider = Slider(screen, 40, 150, 100, 10, min=0, max=20, step=2)
 
 def main():
+
+    speed = 5
+    mean_raindrops = speed*2
+    var_raindrops = speed
+
     global button_pressed
     pygame.display.set_caption("Snowy evening")
 
@@ -86,8 +88,12 @@ def main():
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (SCREEN_WIDTH - scaled_image.get_width(), SCREEN_HEIGHT - scaled_image.get_height()))
 
+        speed = slider.getValue()
+        mean_raindrops = speed*2
+        var_raindrops = speed
+
         individualclouds.emit(screen,raindrops_intervals)
-        individualraindrops.emit(screen)
+        individualraindrops.emit(screen,speed)
 
 
         # Draw the button
