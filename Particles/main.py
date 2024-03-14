@@ -9,7 +9,7 @@ pygame.init()
 
 # Define screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 600
-# SCREEN_HEIGHT_forcells = 100
+SCREEN_HEIGHT_forcells = 50
 SIMULATION_AREA_WIDTH = int(0.8 * SCREEN_WIDTH)
 CONTROL_AREA_WIDTH = SCREEN_WIDTH - SIMULATION_AREA_WIDTH
 
@@ -21,24 +21,32 @@ NUM_COLS = 100
 CELL_WIDTH = SCREEN_WIDTH // NUM_COLS
 CELL_HEIGHT = SCREEN_HEIGHT // NUM_ROWS
 
-# Create a 2D array representing the grid
-grid = [[0] * NUM_COLS for _ in range(NUM_ROWS)]
-
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 flock = []
 
 PARTICLE_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(PARTICLE_EVENT, 80)  # After how many milliseconds will each event be triggered.
+pygame.time.set_timer(PARTICLE_EVENT, 500)  # After how many milliseconds will each event be triggered.
+
+snowbed = []
 
 individualraindrops = RainDrops()
 individualclouds = Clouds()
 
-mean_raindrops = 10
-var_raindrops = 5
+mean_raindrops = 2
+var_raindrops = 1
+
+
 
 def main():
     # gui = GUI(SCREEN_WIDTH, SCREEN_HEIGHT)  # Create an instance of the GUI class
+
+    raindrops_intervals = []
+    cloud_heights = []
+    num_clouds = 0
+
+    max = 1
+    r = 0
 
     while True:
         for event in pygame.event.get():
@@ -46,18 +54,32 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == PARTICLE_EVENT:
-                individualraindrops.add(SCREEN_WIDTH, mean_raindrops, var_raindrops)
+                if num_clouds != 0:
+                    # individualraindrops.add(raindrops_intervals, mean_raindrops, var_raindrops)
+                    if r<max:
+                        individualraindrops.add(raindrops_intervals, cloud_heights,  mean_raindrops, var_raindrops)
+                    else:
+                        r+=1
+                pass
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     individualclouds.add(event.pos[0], event.pos[1])
+                    raindrops_intervals.append([event.pos[0]-60, event.pos[0]+60])
+                    cloud_heights.append(event.pos[1])
+                    num_clouds += 1
+                    
+                    # if event.type == PARTICLE_EVENT:
+                    # individualraindrops.add(SCREEN_WIDTH, mean_raindrops, var_raindrops)
 
+            # Pass events to the GUI for handling
+            # gui.handle_event(event)
+
+        # Draw simulation area
+        # screen.fill((200, 200, 255))
         screen.fill((35,35,35))
 
-        individualclouds.emit(screen)
-        individualraindrops.emit(screen)
-
-        # Update the grid
-        update_grid()
+        individualclouds.emit(screen,raindrops_intervals)
+        individualraindrops.emit(screen,snowbed)
 
         pygame.display.flip()
 
@@ -66,21 +88,12 @@ def main():
 
         # gui.draw(screen)  # Draw GUI elements
 
+        # for position in snowbed:
+            # pygame.draw.circle(screen, (255,0,0), position, 10)
+
         pygame.display.flip()
         clock.tick(60)
 
-def update_grid():
-    # Clear the grid
-    for row in range(NUM_ROWS):
-        for col in range(NUM_COLS):
-            grid[row][col] = 0
-
-    # Update the grid based on the position of raindrops
-    for particle in individualraindrops.raindrops:
-        col = int(particle[0][0] / CELL_WIDTH)
-        row = int(particle[0][1] / CELL_HEIGHT)
-        if 0 <= row < NUM_ROWS and 0 <= col < NUM_COLS:
-            grid[row][col] = 1
 
 if __name__ == "__main__":
     main()
