@@ -14,7 +14,7 @@ class RainDrops:
                 particle = self.raindrops[i]
                 if particle[0][1] >= screen.get_height() - particle[1]:
 
-                    print(self.snow_stack)
+                    # print(self.snow_stack)
 
                     if i not in self.fixed:
                         if particle[0][0] not in self.snow_stack:
@@ -25,17 +25,12 @@ class RainDrops:
                         particle[0][1] = screen.get_height() - (particle[1]*self.snow_stack[particle[0][0]])  # Set the y position to the bottom of the screen
                         self.fixed.add(i)
 
-                    # snowbed.append((particle[0][0],600))
-
-                    # print(particle[0])
-                    # print("bruh",self.snow_stack[particle[0][0]])
-                    # print("minusing",particle[1]*self.snow_stack[particle[0][0]])
                 else:
                     particle[0][0] += particle[2][1]  # Move the particle in the y direction
                     particle[0][1] += particle[2][0]  # Move the particle in the x direction
                     particle[0][0] += 0.5
-                # particle[2][1] += 0.05  # Acceleration factor to the particle, this will be used to simulate the wind pressure
-                # particle[1] -= 0.02 # Dampen the particle size, that is how fast the particle will shrink/die off
+                particle[2][1] += 0.02  # Acceleration factor to the particle, this will be used to simulate the wind pressure
+                particle[1] -= 0.02 # Dampen the particle size, that is how fast the particle will shrink/die off
 
                              
                 # Check for collision with other particles

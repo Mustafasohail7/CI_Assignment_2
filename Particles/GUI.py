@@ -24,12 +24,10 @@ class GUI:
         # Position the buttons, sliders, and text boxes relative to the GUI area
         button_x = (self.screen_width - gui_width) + (gui_width - button_width) // 2
         slider_x = (self.screen_width - gui_width) + (gui_width - slider_width) // 2
-        textbox_x = (self.screen_width - gui_width) + (gui_width - textbox_width) // 2
 
         button_y = gui_height // 10
         button_spacing = button_height * 1.5
         slider_y = gui_height // 5
-        textbox_y = gui_height // 2
 
         # Create buttons
         self.buttons.append(Button('Add Bird', (button_x, button_y + button_spacing, button_width, button_height)))

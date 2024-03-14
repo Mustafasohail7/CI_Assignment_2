@@ -3,13 +3,13 @@ import pygame
 from pygame.locals import *
 from raindrop import RainDrops
 from cloud import Clouds
-from GUI import GUI
+from button import Button
+from slider import Slider
 
 pygame.init()
 
 # Define screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 600
-SCREEN_HEIGHT_forcells = 50
 SIMULATION_AREA_WIDTH = int(0.8 * SCREEN_WIDTH)
 CONTROL_AREA_WIDTH = SCREEN_WIDTH - SIMULATION_AREA_WIDTH
 
@@ -33,20 +33,20 @@ snowbed = []
 individualraindrops = RainDrops()
 individualclouds = Clouds()
 
-mean_raindrops = 2
-var_raindrops = 1
+mean_raindrops = 3
+var_raindrops = 2
 
-
+# Create the button
+button = Button("Stop Simulation", (30, 10, 130, 32))
+button_pressed = False
 
 def main():
-    # gui = GUI(SCREEN_WIDTH, SCREEN_HEIGHT)  # Create an instance of the GUI class
+    global button_pressed
+    pygame.display.set_caption("Snowy evening")
 
     raindrops_intervals = []
     cloud_heights = []
     num_clouds = 0
-
-    max = 1
-    r = 0
 
     while True:
         for event in pygame.event.get():
@@ -54,35 +54,37 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == PARTICLE_EVENT:
-                if num_clouds != 0:
-                    # individualraindrops.add(raindrops_intervals, mean_raindrops, var_raindrops)
-                    if r<max:
-                        individualraindrops.add(raindrops_intervals, cloud_heights,  mean_raindrops, var_raindrops)
-                    else:
-                        r+=1
-                pass
+                if num_clouds != 0 and not button_pressed:  # Check if the button is not pressed
+                    individualraindrops.add(raindrops_intervals, cloud_heights,  mean_raindrops, var_raindrops)
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
+                if event.button == 1 and not button_pressed:  # Check if the button is not pressed
                     individualclouds.add(event.pos[0], event.pos[1])
                     raindrops_intervals.append([event.pos[0]-60, event.pos[0]+60])
                     cloud_heights.append(event.pos[1])
                     num_clouds += 1
-                    
-                    # if event.type == PARTICLE_EVENT:
-                    # individualraindrops.add(SCREEN_WIDTH, mean_raindrops, var_raindrops)
-
-            # Pass events to the GUI for handling
-            # gui.handle_event(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN and button.rect.collidepoint(event.pos):
+                button_pressed = True  # Set the button_pressed variable to True when the button is pressed
 
         # Draw simulation area
-        # screen.fill((200, 200, 255))
-        screen.fill((35,35,35))
+        screen.fill((150, 150, 255))
+        # screen.fill((200,200,200))
+        image_path = 'images/snowytree.png'
+        image = pygame.image.load(image_path)
+        scaled_image = pygame.transform.scale(image, (350, 500))
+        screen.blit(scaled_image, (0, SCREEN_HEIGHT - scaled_image.get_height()))
+
+        scaled_image = pygame.transform.scale(image, (350, 500))
+        screen.blit(scaled_image, (SCREEN_WIDTH - scaled_image.get_width(), SCREEN_HEIGHT - scaled_image.get_height()))
 
         individualclouds.emit(screen,raindrops_intervals)
         individualraindrops.emit(screen,snowbed)
 
+        # Draw the button
+        button.draw(screen)
+
         pygame.display.flip()
 
+        
         # Draw control area (GUI)
         pygame.draw.rect(screen, (150, 150, 150), (SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
 
