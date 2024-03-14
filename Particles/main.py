@@ -43,13 +43,12 @@ button_pressed = False
 
 # speed_slider = Slider("Change Speed", 0, 10, 1, (100,100,0))
 
-
 slider = Slider(screen, 40, 150, 100, 10, min=0, max=20, step=2)
 
 def main():
 
     speed = 5
-    mean_raindrops = speed*2
+    mean_raindrops = speed * 1.2
     var_raindrops = speed
 
     global button_pressed
@@ -80,7 +79,7 @@ def main():
         # Draw simulation area
         screen.fill((150, 150, 255))
         # screen.fill((200,200,200))
-        image_path = '../images/snowytree.png'
+        image_path = './images/snowytree.png'
         image = pygame.image.load(image_path)
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (0, SCREEN_HEIGHT - scaled_image.get_height()))
