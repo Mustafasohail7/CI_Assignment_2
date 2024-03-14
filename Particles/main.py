@@ -9,6 +9,7 @@ pygame.init()
 
 # Define screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 600
+# SCREEN_HEIGHT_forcells = 100
 SIMULATION_AREA_WIDTH = int(0.8 * SCREEN_WIDTH)
 CONTROL_AREA_WIDTH = SCREEN_WIDTH - SIMULATION_AREA_WIDTH
 
@@ -19,6 +20,9 @@ NUM_COLS = 100
 # Calculate the width and height of each cell
 CELL_WIDTH = SCREEN_WIDTH // NUM_COLS
 CELL_HEIGHT = SCREEN_HEIGHT // NUM_ROWS
+
+# Create a 2D array representing the grid
+grid = [[0] * NUM_COLS for _ in range(NUM_ROWS)]
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
@@ -46,24 +50,14 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     individualclouds.add(event.pos[0], event.pos[1])
-                    # if event.type == PARTICLE_EVENT:
-                    # individualraindrops.add(SCREEN_WIDTH, mean_raindrops, var_raindrops)
 
-            # Pass events to the GUI for handling
-            # gui.handle_event(event)
-
-        # Draw simulation area
-        # screen.fill((200, 200, 255))
         screen.fill((35,35,35))
 
         individualclouds.emit(screen)
         individualraindrops.emit(screen)
 
-        # Draw grid lines
-        for row in range(NUM_ROWS):
-            pygame.draw.line(screen, (35,35,35), (0, row * CELL_HEIGHT), (SCREEN_WIDTH, row * CELL_HEIGHT))
-        for col in range(NUM_COLS):
-            pygame.draw.line(screen, (35,35,35), (col * CELL_WIDTH, 0), (col * CELL_WIDTH, SCREEN_HEIGHT))
+        # Update the grid
+        update_grid()
 
         pygame.display.flip()
 
@@ -75,6 +69,18 @@ def main():
         pygame.display.flip()
         clock.tick(60)
 
+def update_grid():
+    # Clear the grid
+    for row in range(NUM_ROWS):
+        for col in range(NUM_COLS):
+            grid[row][col] = 0
+
+    # Update the grid based on the position of raindrops
+    for particle in individualraindrops.raindrops:
+        col = int(particle[0][0] / CELL_WIDTH)
+        row = int(particle[0][1] / CELL_HEIGHT)
+        if 0 <= row < NUM_ROWS and 0 <= col < NUM_COLS:
+            grid[row][col] = 1
 
 if __name__ == "__main__":
     main()
