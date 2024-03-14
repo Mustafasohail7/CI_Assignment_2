@@ -62,7 +62,7 @@ windpressure_slider = Slider(screen, 40, 150, 100, 5, min=-0.1, max=0.1, step=0.
 windpressure_output.disable()  
 
 dampen_output = TextBox(screen, 35, 195, 0, 5, fontSize=15)
-dampen_slider = Slider(screen, 40, 200, 100, 5, min=-0.1, max= 0.3, step=0.03)
+dampen_slider = Slider(screen, 40, 200, 100, 5, min=0, max= 0.3, step=0.03)
 dampen_output.disable()
 
 
@@ -123,9 +123,9 @@ def main():
         individualclouds.emit(screen,raindrops_intervals)
         individualraindrops.emit(screen,speed,windpressure,dampen)
 
-        speed_output.setText("Change Speed: " + str(speed))  # Update the text of the textbox
-        windpressure_output.setText("Change Wind Pressure")
-        dampen_output.setText("Change Dampen")
+        speed_output.setText("Snowfall Speed: " + str(speed))  # Update the text of the textbox
+        windpressure_output.setText("Wind Pressure")
+        dampen_output.setText("Dampening Factor: " + str(dampen))
 
         pygame_widgets.update(events)
         pygame.display.update()
