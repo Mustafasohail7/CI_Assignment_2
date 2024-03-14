@@ -1,13 +1,13 @@
 import sys
 import pygame
+import pygame_widgets
 from pygame.locals import *
 from raindrop import RainDrops
 from cloud import Clouds
 from button import Button
 from slider import Slider
-
-import pygame_widgets
 from pygame_widgets.slider import Slider
+from pygame_widgets.textbox import TextBox
 
 pygame.init()
 
@@ -31,25 +31,32 @@ flock = []
 PARTICLE_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(PARTICLE_EVENT, 300)  # After how many milliseconds will each event be triggered.
 
-snowbed = []
-
 individualraindrops = RainDrops()
 individualclouds = Clouds()
-
 
 # Create the button
 button = Button("Stop Simulation", (30, 10, 130, 32))
 button_pressed = False
 
-# speed_slider = Slider("Change Speed", 0, 10, 1, (100,100,0))
+speed_output = TextBox(screen, 35, 95, 0, 5, fontSize=15)
+speed_slider = Slider(screen, 40, 100, 100, 5, min=0, max=10, step=1)
+speed_output.disable()  # Act as label instead of textbox
 
-slider = Slider(screen, 40, 150, 100, 10, min=0, max=20, step=2)
+windpressure_output = TextBox(screen, 35, 145, 0, 5, fontSize=15)
+windpressure_slider = Slider(screen, 40, 150, 100, 5, min=-0.1, max=0.1, step=0.02)
+windpressure_output.disable()  
+
+dampen_output = TextBox(screen, 35, 195, 0, 5, fontSize=15)
+dampen_slider = Slider(screen, 40, 200, 100, 5, min=-0.1, max= 0.3, step=0.03)
+dampen_output.disable()
 
 def main():
 
     speed = 5
     mean_raindrops = speed * 1.2
     var_raindrops = speed
+
+    windpressure = 0
 
     global button_pressed
     pygame.display.set_caption("Snowy evening")
@@ -87,22 +94,25 @@ def main():
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (SCREEN_WIDTH - scaled_image.get_width(), SCREEN_HEIGHT - scaled_image.get_height()))
 
-        speed = slider.getValue()
+        speed = speed_slider.getValue()
         mean_raindrops = speed*2
         var_raindrops = speed
 
+        windpressure = windpressure_slider.getValue()
+
+        dampen = dampen_slider.getValue()
+
         individualclouds.emit(screen,raindrops_intervals)
-        individualraindrops.emit(screen,speed)
+        individualraindrops.emit(screen,speed,windpressure,dampen)
 
-
-        # Draw the button
-        button.draw(screen)
+        speed_output.setText("Change Speed: " + str(speed))  # Update the text of the textbox
+        windpressure_output.setText("Change Wind Pressure")
+        dampen_output.setText("Change Dampen")
 
         pygame_widgets.update(events)
         pygame.display.update()
 
         pygame.display.flip()
-
         
         # Draw control area (GUI)
         pygame.draw.rect(screen, (150, 150, 150), (SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -110,7 +120,6 @@ def main():
 
         pygame.display.flip()
         clock.tick(60)
-
 
 if __name__ == "__main__":
     main()

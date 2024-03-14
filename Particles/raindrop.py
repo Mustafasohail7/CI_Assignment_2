@@ -6,7 +6,7 @@ class RainDrops:
         self.raindrops = []
         self.snow_stack = dict()
 
-    def emit(self, screen,speed):
+    def emit(self, screen,speed,windpressure,dampen):
         if self.raindrops:
             self.delete()
             for i in range(len(self.raindrops)):
@@ -18,8 +18,8 @@ class RainDrops:
                     particle[0][0] += particle[2][1] # Move the particle in the y direction
                     particle[0][1] += particle[2][0] + speed # Move the particle in the x direction
                     particle[0][0] += 0.5
-                # particle[2][1] += 0.05  # Acceleration factor to the particle, this will be used to simulate the wind pressure
-                particle[1] -= 0.02 # Dampen the particle size, that is how fast the particle will shrink/die off
+                particle[2][1] += windpressure  # Acceleration factor to the particle, this will be used to simulate the wind pressure
+                particle[1] -= dampen # Dampen the particle size, that is how fast the particle will shrink/die off
 
                              
                 # Check for collision with other particles
