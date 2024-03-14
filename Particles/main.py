@@ -6,6 +6,9 @@ from cloud import Clouds
 from button import Button
 from slider import Slider
 
+import pygame_widgets
+from pygame_widgets.slider import Slider
+
 pygame.init()
 
 # Define screen dimensions
@@ -41,6 +44,11 @@ var_raindrops = 5
 button = Button("Stop Simulation", (30, 10, 130, 32))
 button_pressed = False
 
+# speed_slider = Slider("Change Speed", 0, 10, 1, (100,100,0))
+speed = 1
+
+slider = Slider(screen, 40, 150, 100, 10, min=0, max=10, step=1)
+
 def main():
     global button_pressed
     pygame.display.set_caption("Snowy evening")
@@ -50,7 +58,8 @@ def main():
     num_clouds = 0
 
     while True:
-        for event in pygame.event.get():
+        events = pygame.event.get()
+        for event in events:
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
@@ -58,7 +67,7 @@ def main():
                 if num_clouds != 0 and not button_pressed:  # Check if the button is not pressed
                     individualraindrops.add(raindrops_intervals, cloud_heights,  mean_raindrops, var_raindrops)
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1 and not button_pressed:  # Check if the button is not pressed
+                if event.button == 1 and not button_pressed and event.pos[0]>200:  # Check if the button is not pressed
                     individualclouds.add(event.pos[0], event.pos[1])
                     raindrops_intervals.append([event.pos[0]-60, event.pos[0]+60])
                     cloud_heights.append(event.pos[1])
@@ -78,10 +87,14 @@ def main():
         screen.blit(scaled_image, (SCREEN_WIDTH - scaled_image.get_width(), SCREEN_HEIGHT - scaled_image.get_height()))
 
         individualclouds.emit(screen,raindrops_intervals)
-        individualraindrops.emit(screen,snowbed)
+        individualraindrops.emit(screen)
+
 
         # Draw the button
         button.draw(screen)
+
+        pygame_widgets.update(events)
+        pygame.display.update()
 
         pygame.display.flip()
 
@@ -89,10 +102,6 @@ def main():
         # Draw control area (GUI)
         pygame.draw.rect(screen, (150, 150, 150), (SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
 
-        # gui.draw(screen)  # Draw GUI elements
-
-        # for position in snowbed:
-            # pygame.draw.circle(screen, (255,0,0), position, 10)
 
         pygame.display.flip()
         clock.tick(60)

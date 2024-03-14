@@ -5,33 +5,19 @@ class RainDrops:
     def __init__(self):
         self.raindrops = []
         self.snow_stack = dict()
-        self.fixed = set()
 
-    def emit(self, screen, snowbed):
+    def emit(self, screen):
         if self.raindrops:
             self.delete()
             for i in range(len(self.raindrops)):
                 particle = self.raindrops[i]
                 if particle[0][1] >= screen.get_height() - particle[1]:
-
-                    # print(self.snow_stack)
-                    cell = self.get_grid_cell(particle)
-                    if i not in self.fixed:
-                        if cell not in self.snow_stack:
-                            self.snow_stack[cell] = 1
-                        # else:
-                        #     self.snow_stack[cell] += 1
-                        
-                        # print(self.snow_stack[cell])
                         particle[0][1] = screen.get_height() - (particle[1])  # Set the y position to the bottom of the screen
-                        self.fixed.add(i)
 
                 else:
-                    if i not in self.fixed:
-                        # particle[0][0] += particle[2][1]
-                        particle[0][0] += particle[2][1]  # Move the particle in the y direction
-                        particle[0][1] += particle[2][0]  # Move the particle in the x direction
-                        particle[0][0] += 0.5
+                    particle[0][0] += particle[2][1]  # Move the particle in the y direction
+                    particle[0][1] += particle[2][0]  # Move the particle in the x direction
+                    particle[0][0] += 0.5
                 # particle[2][1] += 0.05  # Acceleration factor to the particle, this will be used to simulate the wind pressure
                 particle[1] -= 0.02 # Dampen the particle size, that is how fast the particle will shrink/die off
 
@@ -53,9 +39,6 @@ class RainDrops:
                 
                 pygame.draw.circle(screen, (200, 230, 255), particle[0], int(particle[1]))
 
-    def get_grid_cell(self,particle):
-        return particle[0][0]//10
-
     def add(self, intervals, height, mean_raindrops, var_raindrops):
         num_raindrops = max(0, int(random.gauss(mean_raindrops, var_raindrops)))
         for _ in range(num_raindrops):
@@ -65,7 +48,7 @@ class RainDrops:
             # pos_x = random.randint(int(intervals[0][0]),int(intervals[0][1]))  # Convert SCREEN_WIDTH to an integer 
             # pos_y = random.randint(height[index],self.screen_height)  # Randomize the y position of the raindrop
             pos_y = height[index]+10
-            radius = 3
+            radius = random.uniform(2, 6)
             direction_x = random.randint(1, 5)
             direction_y = 0  # Ensure raindrops move downwards
             particle_circle = [[pos_x, pos_y], radius, [direction_x, direction_y]]

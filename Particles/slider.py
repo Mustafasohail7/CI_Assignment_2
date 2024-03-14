@@ -39,5 +39,6 @@ class Slider:
         label_text = font.render(self.label, True, (0, 0, 0))
         screen.blit(val_text, (self.rectx, self.recty + 8))
         screen.blit(label_text, (self.x, self.y - 25))
+        print(val_text)
 
 
