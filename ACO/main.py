@@ -25,4 +25,6 @@ if sys.argv[1] == "test":
 else:
     sol = main()
 
-print("Colors Needed",sol[0])
+print("Colors Needed")
+for i in sol[0]:
+    print(i[0])

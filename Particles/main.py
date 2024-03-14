@@ -26,15 +26,15 @@ clock = pygame.time.Clock()
 flock = []
 
 PARTICLE_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(PARTICLE_EVENT, 500)  # After how many milliseconds will each event be triggered.
+pygame.time.set_timer(PARTICLE_EVENT, 300)  # After how many milliseconds will each event be triggered.
 
 snowbed = []
 
 individualraindrops = RainDrops()
 individualclouds = Clouds()
 
-mean_raindrops = 2
-var_raindrops = 1
+mean_raindrops = 10
+var_raindrops = 5
 
 
 
@@ -56,10 +56,10 @@ def main():
             elif event.type == PARTICLE_EVENT:
                 if num_clouds != 0:
                     # individualraindrops.add(raindrops_intervals, mean_raindrops, var_raindrops)
-                    if r<max:
+                    # if r<max:
                         individualraindrops.add(raindrops_intervals, cloud_heights,  mean_raindrops, var_raindrops)
-                    else:
-                        r+=1
+                    # else:
+                    #     r+=1
                 pass
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:

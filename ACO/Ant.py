@@ -5,12 +5,13 @@ class Ant:
     # create new ant
     # alpha: the relative importance of pheromone (si_ij)
     # beta: the relative importance of heuristic value (n_ij)
-    def __init__(self, vertices, colors, phero_matrix,adj_matrix, numVertices, alpha=1, beta=3):
+    def __init__(self, vertices, colors, phero_matrix,adj_matrix, numVertices, antID,alpha=1, beta=3):
         self.colors = colors
         self.vertices = vertices
         self.phero_matrix = phero_matrix
         self.adj_matrix = adj_matrix
         self.numVertices = numVertices
+        self.ID = antID
         self.distance = 0
         self.colors_assigned = {}
         self.alpha = alpha
@@ -65,6 +66,7 @@ class Ant:
                     break
         # save distance of the current solution
         self.distance = len(set(self.colors_assigned.values()))
+        print("for ant#",self.ID+1,"distance is:",self.distance)
         return self
 
         

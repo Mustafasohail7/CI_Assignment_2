@@ -29,11 +29,14 @@ class ACO:
         self.adj_matrix = self.initialize_adj_matrix()
         self.colors = self.intialize_colors()
         self.phero_matrix = self.initialize_pheromone_matrix()
+        print("pheromone matrix initially","\n",self.phero_matrix)
 
         self.ants = self.create_colony(initialize=True)
+        best_sols = list()
 
         for i in range(self.iterations):
             print("Iteration number:",i+1)
+            print("pheromone matrix for generation#",i+1,"\n",self.phero_matrix)
             
             self.ants = self.create_colony()
             # let colony find solutions
@@ -41,6 +44,8 @@ class ACO:
             self.apply_decay()
 
             elite_dist, elite_sol = self.update_elite()
+
+            best_sols.append((elite_dist,elite_sol))
 
             if (final_costs==0):
                 final_costs = elite_dist
@@ -54,7 +59,7 @@ class ACO:
             print("best solution so far",final_costs)
             print("-----------------------------------------")
 
-        return (final_costs, final_solution, iterations_needed)
+        return (best_sols,final_costs, final_solution, iterations_needed)
     
     def initialize_pheromone_matrix(self):
         phero_matrix = np.ones((self.numVertices, self.numVertices), float)
@@ -80,7 +85,7 @@ class ACO:
     
     def create_colony(self,initialize=False):
         ants = []
-        ants.extend([Ant(self.vertices,self.colors,self.phero_matrix,self.adj_matrix,self.numVertices).colorize(initialize) for i in range(self.num_ants)])
+        ants.extend([Ant(self.vertices,self.colors,self.phero_matrix,self.adj_matrix,self.numVertices,i).colorize(initialize) for i in range(self.num_ants)])
         return ants
     
     def initialize_adj_matrix(self):

@@ -35,7 +35,7 @@ class Clouds:
         color = pygame.Color(0)
         color.hsva = (hue, saturation, value, 100)  # Set the color using HSV values with full alpha
 
-        num_particles = random.randint(1000, 2000)  # Number of particles for each cloud
+        num_particles = random.randint(100, 200)  # Number of particles for each cloud
 
         cloud_size = 80  # What is the size of the cloud
         spread_factor = 0.3  # How spread are the particles that make up the cloud
