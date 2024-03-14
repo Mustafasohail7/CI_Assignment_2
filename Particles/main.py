@@ -4,8 +4,6 @@ import pygame_widgets
 from pygame.locals import *
 from raindrop import RainDrops
 from cloud import Clouds
-from button import Button
-from slider import Slider
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
 from pygame_widgets.button import Button
