@@ -14,9 +14,14 @@ class RainDrops:
             for particle in self.raindrops:
                 particle[0][1] += particle[2][0]  # Move the particle in the x direction
                 particle[0][0] += particle[2][1]  # Move the particle in the y direction
-                # particle[2][1] += 0.1  # Acceleration factor to the particle, this will be used to simulate the wind pressure
-                particle[1] -= 0.08  # Dampen the particle size, that is how fast the particle will shrink/die off
-                pygame.draw.circle(screen, pygame.Color('White'), particle[0], int(particle[1]))
+                # particle[2][1] += 0.01  # Acceleration factor to the particle, this will be used to simulate the wind pressure
+                particle[1] -= 0.02 # Dampen the particle size, that is how fast the particle will shrink/die off
+                
+                # Check if the particle has reached the bottom of the screen
+                if particle[0][1] >= screen.get_height() - particle[1]:
+                    particle[0][1] = screen.get_height() - particle[1]  # Set the y position to the bottom of the screen
+                
+                pygame.draw.circle(screen, (200, 230, 255), particle[0], int(particle[1]))
 
     def add(self, SCREEN_WIDTH, mean_raindrops, var_raindrops):
         num_raindrops = max(0, int(random.gauss(mean_raindrops, var_raindrops)))

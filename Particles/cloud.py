@@ -15,7 +15,7 @@ class Clouds:
                 
                 # Draw translucent circles to create a softer cloud-like appearance
                 radius = particle[2]  # Get the radius of the particle
-                alpha = int(255 * (radius / 50))  # Adjust alpha based on particle size
+                alpha = int(255 * (radius / 5))  # Adjust alpha based on particle size
                 color = particle[1]  # Get the color of the particle
                 color.a = alpha  # Set alpha value for transparency
                 pygame.draw.circle(screen, color, (int(particle[0][0]), int(particle[0][1])), int(radius))
@@ -23,14 +23,14 @@ class Clouds:
 
     def add(self, pos_x, pos_y):
         # Add small cloud particles at the specified position
-        hue = random.randint(210, 220)  # Random hue for clouds within the range of white to gray
+        hue = random.randint(250, 255)  # Random hue for clouds within the range of white to gray
         saturation = random.uniform(0, 3)  # Lower saturation for closer to white appearance
         value = random.uniform(90, 100)  # Higher value for closer to white appearance
 
         # Add shadow to the clouds
-        shadow_hue = random.randint(210, 220)  # Random hue for shadow within the range of white to gray
-        shadow_saturation = random.uniform(0, 10)  # Lower saturation for shadow closer to white appearance
-        shadow_value = random.uniform(70, 80)  # Lower value for shadow closer to black appearance
+        shadow_hue = random.randint(230, 255)  # Random hue for shadow within the range of white to gray
+        shadow_saturation = random.uniform(0, 20)  # Lower saturation for shadow closer to white appearance
+        shadow_value = random.uniform(80, 85)  # Lower value for shadow closer to black appearance
 
         # Create color objects for cloud and shadow
         color = pygame.Color(0)
@@ -38,10 +38,10 @@ class Clouds:
         shadow_color = pygame.Color(0)
         shadow_color.hsva = (shadow_hue, shadow_saturation, shadow_value, 100)  # Set the shadow color using HSV values with full alpha
 
-        num_particles = random.randint(3000, 5000)  # Number of particles for each cloud
+        num_particles = random.randint(1000, 2000)  # Number of particles for each cloud
 
-        cloud_size = 50  # Adjust cloud size as needed
-        spread_factor = 0.35  # Adjust spread factor to control particle spread
+        cloud_size = 80  # Adjust cloud size as needed
+        spread_factor = 0.3  # Adjust spread factor to control particle spread
 
         for _ in range(num_particles):
             # Randomize position within the cloud area with reduced variation
