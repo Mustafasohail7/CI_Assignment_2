@@ -30,12 +30,13 @@ class ACO:
         self.colors = self.intialize_colors()
         self.phero_matrix = self.initialize_pheromone_matrix()
 
+        self.ants = self.create_colony(initialize=True)
+
         for i in range(self.iterations):
             print("Iteration number:",i+1)
+            
             self.ants = self.create_colony()
             # let colony find solutions
-            for ant in self.ants:
-                ant.colorize(self.phero_matrix,self.adj_matrix,self.numVertices)
 
             self.apply_decay()
 
@@ -47,7 +48,7 @@ class ACO:
             elif (elite_dist<final_costs):
                 final_costs = elite_dist
                 final_solution = elite_sol
-                
+
             iterations_needed +=1
 
             print("best solution so far",final_costs)
@@ -77,9 +78,9 @@ class ACO:
         self.phero_matrix = self.phero_matrix + elite_phero_matrix
         return elite_ant.distance, elite_ant.colors_assigned
     
-    def create_colony(self):
+    def create_colony(self,initialize=False):
         ants = []
-        ants.extend([Ant(self.vertices,self.colors).initialize() for i in range(self.num_ants)])
+        ants.extend([Ant(self.vertices,self.colors,self.phero_matrix,self.adj_matrix,self.numVertices).colorize(initialize) for i in range(self.num_ants)])
         return ants
     
     def initialize_adj_matrix(self):

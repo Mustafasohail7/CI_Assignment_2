@@ -5,13 +5,18 @@ class Ant:
     # create new ant
     # alpha: the relative importance of pheromone (si_ij)
     # beta: the relative importance of heuristic value (n_ij)
-    def __init__(self, vertices, colors, alpha=1, beta=3):
+    def __init__(self, vertices, colors, phero_matrix,adj_matrix, numVertices, alpha=1, beta=3):
         self.colors = colors
         self.vertices = vertices
+        self.phero_matrix = phero_matrix
+        self.adj_matrix = adj_matrix
+        self.numVertices = numVertices
         self.distance = 0
         self.colors_assigned = {}
         self.alpha = alpha
         self.beta = beta
+
+        self.initialize()
 
     # reset everything for a new solution
     # start: starting node in g (random by default)
@@ -34,7 +39,6 @@ class Ant:
         # assign min. color number to the start node
         if (len(self.visited)==0):
             self.assign_color(self.start, self.colors_available[0])
-        return self
 
     # assign color to node and update the node lists
     def assign_color(self, node, color):
@@ -43,11 +47,7 @@ class Ant:
         self.unvisited.remove(node)
     
     # assign a color to each node in the graph
-    def colorize(self,phero_matrix,adj_matrix,numVertices):
-        self.phero_matrix = phero_matrix
-        self.adj_matrix = adj_matrix
-        self.numVertices = numVertices
-
+    def colorize(self,initailize=False):
         len_unvisited = len(self.unvisited)
         tabu_colors = []
         # assign color to each unvisited node
@@ -65,6 +65,7 @@ class Ant:
                     break
         # save distance of the current solution
         self.distance = len(set(self.colors_assigned.values()))
+        return self
 
         
     # return the number of different colors among the neighbours of node
