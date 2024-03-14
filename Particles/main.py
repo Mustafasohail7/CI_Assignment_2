@@ -8,6 +8,7 @@ from button import Button
 from slider import Slider
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
+from pygame_widgets.button import Button
 
 pygame.init()
 
@@ -33,9 +34,18 @@ pygame.time.set_timer(PARTICLE_EVENT, 300)  # After how many milliseconds will e
 
 individualraindrops = RainDrops()
 individualclouds = Clouds()
+raindrops_intervals = []
+
+def reset_sim():
+    # print(individualraindrops.raindrops)
+    global raindrops_intervals
+    individualraindrops.raindrops = []
+    individualclouds.cloud_particles = []
+    raindrops_intervals = []
 
 # Create the button
-button = Button("Stop Simulation", (30, 10, 130, 32))
+button = Button(screen,20,50,50,50,text="Reset Simulation",inactiveColour=(200, 50, 0),hoverColour=(150, 0, 0),pressedColour=(0, 200, 20),
+                onClick=lambda: reset_sim())
 button_pressed = False
 
 speed_output = TextBox(screen, 35, 95, 0, 5, fontSize=15)
@@ -50,7 +60,10 @@ dampen_output = TextBox(screen, 35, 195, 0, 5, fontSize=15)
 dampen_slider = Slider(screen, 40, 200, 100, 5, min=0, max= 0.3, step=0.03)
 dampen_output.disable()
 
+
 def main():
+
+    global raindrops_intervals
 
     speed = 5
     mean_raindrops = speed * 1.2
@@ -61,7 +74,7 @@ def main():
     global button_pressed
     pygame.display.set_caption("Snowy evening")
 
-    raindrops_intervals = []
+    
     cloud_heights = []
     num_clouds = 0
 
@@ -86,7 +99,7 @@ def main():
         # Draw simulation area
         screen.fill((150, 150, 255))
         # screen.fill((200,200,200))
-        image_path = './images/snowytree.png'
+        image_path = '../images/snowytree.png'
         image = pygame.image.load(image_path)
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (0, SCREEN_HEIGHT - scaled_image.get_height()))
