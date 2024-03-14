@@ -44,20 +44,19 @@ def reset_sim():
     raindrops_intervals = []
 
 # Create the button
-button = Button(screen,20,50,50,50,text="Reset Simulation",inactiveColour=(200, 50, 0),hoverColour=(150, 0, 0),pressedColour=(0, 200, 20),
-                onClick=lambda: reset_sim())
+button = Button(screen, 40, 50, 100, 20, text="Reset Simulation", inactiveColour=(200, 50, 0), hoverColour=(150, 0, 0), pressedColour=(0, 200, 20), fontSize=12, onClick=lambda: reset_sim())
 button_pressed = False
 
-speed_output = TextBox(screen, 35, 95, 0, 5, fontSize=15)
-speed_slider = Slider(screen, 40, 100, 100, 5, min=0, max=10, step=1)
+speed_output = TextBox(screen, 35, 145, 0, 5, fontSize=15)
+speed_slider = Slider(screen, 40, 150, 100, 5, min=0, max=10, step=1)
 speed_output.disable()  # Act as label instead of textbox
 
-windpressure_output = TextBox(screen, 35, 145, 0, 5, fontSize=15)
-windpressure_slider = Slider(screen, 40, 150, 100, 5, min=-0.1, max=0.1, step=0.02)
+windpressure_output = TextBox(screen, 35, 195, 0, 5, fontSize=15)
+windpressure_slider = Slider(screen, 40, 200, 100, 5, min=-0.1, max=0.1, step=0.02)
 windpressure_output.disable()  
 
-dampen_output = TextBox(screen, 35, 195, 0, 5, fontSize=15)
-dampen_slider = Slider(screen, 40, 200, 100, 5, min=0, max= 0.3, step=0.03)
+dampen_output = TextBox(screen, 35, 245, 0, 5, fontSize=15)
+dampen_slider = Slider(screen, 40, 250, 100, 5, min=0, max= 0.3, step=0.03)
 dampen_output.disable()
 
 
@@ -99,7 +98,7 @@ def main():
         # Draw simulation area
         screen.fill((150, 150, 255))
         # screen.fill((200,200,200))
-        image_path = '../images/snowytree.png'
+        image_path = './images/snowytree.png'
         image = pygame.image.load(image_path)
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (0, SCREEN_HEIGHT - scaled_image.get_height()))
