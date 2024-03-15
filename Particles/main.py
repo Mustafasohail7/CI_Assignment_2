@@ -10,16 +10,13 @@ from pygame_widgets.button import Button
 
 pygame.init()
 
-# Define screen dimensions
 SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 600
 SIMULATION_AREA_WIDTH = int(0.8 * SCREEN_WIDTH)
 CONTROL_AREA_WIDTH = SCREEN_WIDTH - SIMULATION_AREA_WIDTH
 
-# Define the number of rows and columns for the grid
 NUM_ROWS = 100
 NUM_COLS = 100
 
-# Calculate the width and height of each cell
 CELL_WIDTH = SCREEN_WIDTH // NUM_COLS
 CELL_HEIGHT = SCREEN_HEIGHT // NUM_ROWS
 
@@ -28,7 +25,7 @@ clock = pygame.time.Clock()
 flock = []
 
 PARTICLE_EVENT = pygame.USEREVENT + 1
-pygame.time.set_timer(PARTICLE_EVENT, 300)  # After how many milliseconds will each event be triggered.
+pygame.time.set_timer(PARTICLE_EVENT, 300) 
 
 individualraindrops = RainDrops()
 individualclouds = Clouds()
@@ -41,31 +38,29 @@ backgrounds = [(150, 150, 255), (200,200,200)]
 def change_background():
     global background
     if background == 0:
-        background = 1  # Switch to nighttime background
+        background = 1
     else:
-        background = 0  # Switch to normal background
+        background = 0
 
 def reset_sim():
-    # print(individualraindrops.raindrops)
     global raindrops_intervals
     individualraindrops.raindrops = []
     individualclouds.cloud_particles = []
     raindrops_intervals = []
 
-# Create the button
 button = Button(screen, 40, 20, 100, 20, text="Reset Simulation", inactiveColour=(200, 50, 0), hoverColour=(150, 0, 0), pressedColour=(200, 50, 0), fontSize=12, onClick=lambda: reset_sim(), textColour=(255, 255, 255))
 button2 = Button(screen, 40, 50, 100, 20, text="Change Background", inactiveColour=(200, 50, 0), hoverColour=(150, 0, 0), pressedColour=(200, 50, 0), fontSize=12, onClick=lambda: change_background(), textColour=(255, 255, 255))
 
 speed_output = TextBox(screen, 35, 95, 0, 5, fontSize=15, textColour=(255, 255, 255))
 speed_slider = Slider(screen, 40, 100, 100, 5, min=0, max=10, step=1)
-speed_output.disable()  # Act as label instead of textbox
+speed_output.disable()  
 
 windpressure_output = TextBox(screen, 35, 135, 0, 5, fontSize=15, textColour=(255, 255, 255))
 windpressure_slider = Slider(screen, 40, 140, 100, 5, min=-0.1, max=0.1, step=0.02)
 windpressure_output.disable()  
 
 dampen_output = TextBox(screen, 35, 185, 0, 5, fontSize=15, textColour=(255, 255, 255))
-dampen_slider = Slider(screen, 40, 190, 100, 5, min=0, max= 0.3, step=0.03)
+dampen_slider = Slider(screen, 40, 190, 100, 5, min=0, max= 0.2, step=0.03)
 dampen_output.disable()
 
 def main():
@@ -74,7 +69,7 @@ def main():
     global button_pressed
 
     speed = 5
-    mean_raindrops = speed * 1.2
+    mean_raindrops = speed * 1.1
     var_raindrops = speed
     windpressure = 0
 
