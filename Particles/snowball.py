@@ -1,11 +1,11 @@
 import pygame
 import random
 
-class RainDrops:
+class SnowBalls:
     def __init__(self):
         self.raindrops = []
 
-    def emit(self, screen,speed,windpressure,dampen):
+    def animate(self, screen,speed,windpressure,dampen):
         if self.raindrops:
             self.delete()
             for i in range(len(self.raindrops)):

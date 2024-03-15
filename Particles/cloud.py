@@ -1,4 +1,3 @@
-# cloud.py
 import pygame
 import random
 
@@ -6,7 +5,7 @@ class Clouds:
     def __init__(self):
         self.cloud_particles = []
 
-    def emit(self, screen, raindrops_intervals):
+    def animate(self, screen, raindrops_intervals):
         if self.cloud_particles:
             self.delete(SCREEN_HEIGHT=600)
             for particle in self.cloud_particles:
@@ -16,8 +15,8 @@ class Clouds:
                 
                 radius = particle[2]  # Get the radius of the particle
                 alpha = int(255 * (radius / 5))  # Adjust alpha based on particle size
-                color = particle[1]  # Get the color of the particle
-                color.a = alpha  # Set alpha value for transparency
+                color = particle[1]
+                color.a = alpha  
                 pygame.draw.circle(screen, color, (int(particle[0][0]), int(particle[0][1])), int(radius))
             
             for i in raindrops_intervals:
@@ -30,9 +29,8 @@ class Clouds:
         saturation = random.uniform(0, 3)  # Lower saturation for closer to white appearance
         value = random.uniform(90, 100)  # Higher value for closer to white appearance
 
-        # Create color objects for cloud and shadow
         color = pygame.Color(0)
-        color.hsva = (hue, saturation, value, 100)  # Set the color using HSV values with full alpha
+        color.hsva = (hue, saturation, value, 100) 
 
         num_particles = random.randint(500, 1000)  # Number of particles for each cloud
         cloud_size = 80  # What is the size of the cloud

@@ -2,7 +2,7 @@ import sys
 import pygame
 import pygame_widgets
 from pygame.locals import *
-from raindrop import RainDrops
+from snowball import SnowBalls
 from cloud import Clouds
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
@@ -27,7 +27,7 @@ flock = []
 PARTICLE_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(PARTICLE_EVENT, 300) 
 
-individualraindrops = RainDrops()
+individualraindrops = SnowBalls()
 individualclouds = Clouds()
 raindrops_intervals = []
 nighttimebg = pygame.image.load('./images/nightbg.png')
@@ -118,8 +118,8 @@ def main():
         windpressure = windpressure_slider.getValue()
         dampen = dampen_slider.getValue()
 
-        individualclouds.emit(screen, raindrops_intervals)
-        individualraindrops.emit(screen, speed, windpressure, dampen)
+        individualclouds.animate(screen, raindrops_intervals)
+        individualraindrops.animate(screen, speed, windpressure, dampen)
 
         speed_output.setText("Snowfall Speed: " + str(speed))
         windpressure_output.setText("Wind Pressure")
