@@ -39,9 +39,8 @@ class Clouds:
         spread_factor = 0.3  # How spread are the particles that make up the cloud
 
         for _ in range(num_particles):
-            # Randomize position within the cloud area with reduced variation
-            offset_x = random.gauss(0, cloud_size * spread_factor)  # Gaussian distribution for x offset
-            offset_y = random.gauss(0, cloud_size * spread_factor / 2)  # Gaussian distribution for y offset
+            offset_x = random.gauss(0, cloud_size * spread_factor)  
+            offset_y = random.gauss(0, cloud_size * spread_factor / 2)  
             particle_x = pos_x + offset_x
             particle_y = pos_y + offset_y
             radius = random.uniform(1, 5)  # Random radius for each particle
