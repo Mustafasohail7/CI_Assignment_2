@@ -33,6 +33,7 @@ class ACO:
 
         self.ants = self.create_colony(initialize=True)
         best_sols = list()
+        avg_sols = list()
 
         for i in range(self.iterations):
             print("Iteration number:",i+1)
@@ -45,8 +46,8 @@ class ACO:
 
             elite_dist, elite_sol = self.update_elite()
 
-            best_sols.append((elite_dist,elite_sol))
-
+            best_sols.append(elite_dist)
+            avg_sols.append(self.avg_distance)
             if (final_costs==0):
                 final_costs = elite_dist
                 final_solution = elite_sol
@@ -59,7 +60,7 @@ class ACO:
             print("best solution so far",final_costs)
             print("-----------------------------------------")
 
-        return (best_sols,final_costs, final_solution, iterations_needed)
+        return (best_sols,avg_sols,final_costs, final_solution)
     
     def initialize_pheromone_matrix(self):
         phero_matrix = np.ones((self.numVertices, self.numVertices), float)
@@ -71,7 +72,9 @@ class ACO:
     def update_elite(self):
         best_dist = 0
         elite_ant = None
+        avg_distance = 0
         for ant in self.ants:
+            avg_distance += ant.distance
             if (best_dist==0):
                 best_dist = ant.distance
                 elite_ant = ant
@@ -81,6 +84,7 @@ class ACO:
 
         elite_phero_matrix = elite_ant.pheromone_trail()
         self.phero_matrix = self.phero_matrix + elite_phero_matrix
+        self.avg_distance = avg_distance/self.num_ants
         return elite_ant.distance, elite_ant.colors_assigned
     
     def create_colony(self,initialize=False):
