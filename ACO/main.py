@@ -44,11 +44,11 @@ plt.plot(iterations, avg_sols, label='Average Solutions')
 # Adding labels and title
 plt.xlabel('Generations')
 plt.ylabel('Solutions')
-plt.title('Best and Average Solutions over Generations for queen11_11.col')
+plt.title('Best and Average Solutions over Generations for le450-15b.col')
 
 # Restricting x-axis and y-axis to display only integers
 plt.xticks(range(min(iterations), max(iterations)+1))
-plt.yticks(range(int(min(best_sols)), int(max(best_sols))+1))
+# plt.yticks(range(int(min(best_sols)), int(max(best_sols))+1))
 
 # Adding legend
 plt.legend()
