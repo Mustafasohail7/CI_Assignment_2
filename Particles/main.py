@@ -33,7 +33,7 @@ pygame.time.set_timer(PARTICLE_EVENT, 300)  # After how many milliseconds will e
 individualraindrops = RainDrops()
 individualclouds = Clouds()
 raindrops_intervals = []
-nighttimebg = pygame.image.load('./images/nightbg.png')
+nighttimebg = pygame.image.load('../images/nightbg.png')
 
 background = 0
 backgrounds = [(150, 150, 255), (200,200,200)]
@@ -111,7 +111,7 @@ def main():
             screen.blit(nighttimebg, (0, 0))
 
         # Draw simulation area
-        image_path = './images/snowytree.png'
+        image_path = '../images/snowytree.png'
         image = pygame.image.load(image_path)
         scaled_image = pygame.transform.scale(image, (350, 500))
         screen.blit(scaled_image, (0, SCREEN_HEIGHT - scaled_image.get_height()))
